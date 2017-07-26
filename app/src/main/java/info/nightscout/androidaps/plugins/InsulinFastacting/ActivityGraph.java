@@ -15,7 +15,6 @@ import java.util.List;
 import info.nightscout.androidaps.data.Iob;
 import info.nightscout.androidaps.db.Treatment;
 import info.nightscout.androidaps.interfaces.InsulinInterface;
-import info.nightscout.androidaps.plugins.Overview.graphExtensions.TimeAsXAxisLabelFormatter;
 
 /**
  * Created by mike on 21.04.2017.
@@ -39,9 +38,8 @@ public class ActivityGraph extends GraphView {
         double dia = insulin.getDia();
         int hours = (int) Math.floor(dia + 1);
 
-        Treatment t = new Treatment(insulin);
-        t.created_at = new Date(0);
-        t.timeIndex = 0;
+        Treatment t = new Treatment(insulin, dia);
+        t.date = 0;
         t.insulin = 1d;
 
         LineGraphSeries<DataPoint> activitySeries = null;
@@ -50,7 +48,7 @@ public class ActivityGraph extends GraphView {
         List<DataPoint> iobArray = new ArrayList<DataPoint>();
 
         for (long time = 0; time <= hours * 60 * 60 * 1000; time += 5 * 60 * 1000L) {
-            Iob iob = insulin.iobCalc(t, time, dia);
+            Iob iob = t.iobCalc(time, dia);
             activityArray.add(new DataPoint(time / 60 / 1000, iob.activityContrib));
             iobArray.add(new DataPoint(time / 60 / 1000, iob.iobContrib));
         }
@@ -65,6 +63,7 @@ public class ActivityGraph extends GraphView {
         getViewport().setMaxX(hours * 60);
         getGridLabelRenderer().setNumHorizontalLabels(hours + 1);
         getGridLabelRenderer().setHorizontalAxisTitle("[min]");
+        getGridLabelRenderer().setVerticalLabelsColor(activitySeries.getColor());
 
         DataPoint[] iobDataPoints = new DataPoint[iobArray.size()];
         iobDataPoints = iobArray.toArray(iobDataPoints);
@@ -74,5 +73,6 @@ public class ActivityGraph extends GraphView {
         iobSeries.setBackgroundColor(Color.argb(70, 255, 0, 255));
         getSecondScale().setMinY(0);
         getSecondScale().setMaxY(1);
+        getGridLabelRenderer().setVerticalLabelsSecondScaleColor(Color.MAGENTA);
     }
 }

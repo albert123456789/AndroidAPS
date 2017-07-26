@@ -19,11 +19,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
-import android.util.AttributeSet;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -35,10 +35,13 @@ import com.squareup.otto.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import info.nightscout.androidaps.Services.AlarmSoundService;
 import info.nightscout.androidaps.events.EventAppExit;
 import info.nightscout.androidaps.events.EventPreferenceChange;
 import info.nightscout.androidaps.events.EventRefreshGui;
 import info.nightscout.androidaps.interfaces.PluginBase;
+import info.nightscout.androidaps.plugins.ConfigBuilder.ConfigBuilderPlugin;
+import info.nightscout.androidaps.plugins.Overview.events.EventSetWakeLock;
 import info.nightscout.androidaps.tabs.SlidingTabLayout;
 import info.nightscout.androidaps.tabs.TabPageAdapter;
 import info.nightscout.utils.ImportExportPrefs;
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ImageButton menuButton;
 
+    protected PowerManager.WakeLock mWakeLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +82,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (Config.logFunctionCalls)
             log.debug("onCreate");
 
+        onStatusEvent(new EventSetWakeLock(SP.getBoolean("lockscreen", false)));
+
         registerBus();
         setUpTabs(false);
+    }
+
+    @Subscribe
+    public void onStatusEvent(final EventSetWakeLock ev) {
+        final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        if (ev.lock) {
+            mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "AAPS");
+            mWakeLock.acquire();
+        } else {
+            if (mWakeLock != null)
+                mWakeLock.release();
+        }
     }
 
     @Subscribe
@@ -91,10 +109,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
                 recreate();
                 try { // activity may be destroyed
-                    setUpTabs(ev.isSwitchToLast());
+                    setUpTabs(true);
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }
+                boolean lockScreen = BuildConfig.NSCLIENTOLNY && SP.getBoolean("lockscreen", false);
+                if (lockScreen)
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                else
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             }
         });
     }
@@ -153,6 +176,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         askForSMSPermissions();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mWakeLock != null)
+            mWakeLock.release();
+        super.onDestroy();
     }
 
     private void askForBatteryOptimizationPermission() {
@@ -296,11 +326,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             case R.id.nav_about:
                                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                                 builder.setTitle(getString(R.string.app_name) + " " + BuildConfig.VERSION);
-                                if (BuildConfig.NSCLIENTOLNY)
+                                if (Config.NSCLIENT)
                                     builder.setIcon(R.mipmap.yellowowl);
                                 else
                                     builder.setIcon(R.mipmap.blueowl);
-                                builder.setMessage("Build: " + BuildConfig.BUILDVERSION);
+                                String message = "Build: " + BuildConfig.BUILDVERSION + "\n";
+                                message += MainApp.sResources.getString(R.string.configbuilder_nightscoutversion_label) + " " + ConfigBuilderPlugin.nightscoutVersionName;
+                                builder.setMessage(message);
                                 builder.setPositiveButton(MainApp.sResources.getString(R.string.ok), null);
                                 AlertDialog alertDialog = builder.create();
                                 alertDialog.show();

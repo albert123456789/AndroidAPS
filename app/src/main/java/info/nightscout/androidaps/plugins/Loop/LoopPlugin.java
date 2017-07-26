@@ -12,6 +12,7 @@ import android.support.v7.app.NotificationCompat;
 
 import com.squareup.otto.Subscribe;
 
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,10 @@ import info.nightscout.androidaps.plugins.ConfigBuilder.ConfigBuilderPlugin;
 import info.nightscout.androidaps.plugins.Loop.events.EventLoopSetLastRunGui;
 import info.nightscout.androidaps.plugins.Loop.events.EventLoopUpdateGui;
 import info.nightscout.androidaps.plugins.Loop.events.EventNewOpenLoopNotification;
+import info.nightscout.androidaps.plugins.OpenAPSAMA.OpenAPSAMAPlugin;
+import info.nightscout.utils.NSUpload;
 import info.nightscout.utils.SP;
+import info.nightscout.utils.SafeParse;
 
 /**
  * Created by mike on 05.08.2016.
@@ -163,7 +167,7 @@ public class LoopPlugin implements PluginBase {
         if (loopSuspendedTill == 0)
             return 0;
 
-        long now = new Date().getTime();
+        long now = System.currentTimeMillis();
         long msecDiff = loopSuspendedTill - now;
 
         if (loopSuspendedTill <= now) { // time exceeded
@@ -178,7 +182,7 @@ public class LoopPlugin implements PluginBase {
         if (loopSuspendedTill == 0)
             return false;
 
-        long now = new Date().getTime();
+        long now = System.currentTimeMillis();
 
         if (loopSuspendedTill <= now) { // time exceeded
             suspendTo(0L);
@@ -192,7 +196,7 @@ public class LoopPlugin implements PluginBase {
         if (loopSuspendedTill == 0)
             return false;
 
-        long now = new Date().getTime();
+        long now = System.currentTimeMillis();
 
         if (loopSuspendedTill <= now) { // time exceeded
             suspendTo(0L);
@@ -205,7 +209,7 @@ public class LoopPlugin implements PluginBase {
     public void invoke(String initiator, boolean allowNotification) {
         try {
             if (Config.logFunctionCalls)
-                log.debug("invoke");
+                log.debug("invoke from " + initiator);
             ConstraintsInterface constraintsInterface = MainApp.getConfigBuilder();
             if (!constraintsInterface.isLoopEnabled()) {
                 log.debug(MainApp.sResources.getString(R.string.loopdisabled));
@@ -227,6 +231,12 @@ public class LoopPlugin implements PluginBase {
             if (configBuilder.isSuspended()) {
                 log.debug(MainApp.sResources.getString(R.string.pumpsuspended));
                 MainApp.bus().post(new EventLoopSetLastRunGui(MainApp.sResources.getString(R.string.pumpsuspended)));
+                return;
+            }
+
+            if (configBuilder.getProfile() == null) {
+                log.debug(MainApp.sResources.getString(R.string.noprofileselected));
+                MainApp.bus().post(new EventLoopSetLastRunGui(MainApp.sResources.getString(R.string.noprofileselected)));
                 return;
             }
 
@@ -256,7 +266,7 @@ public class LoopPlugin implements PluginBase {
             lastRun.source = ((PluginBase) usedAPS).getName();
             lastRun.setByPump = null;
 
-            if (constraintsInterface.isClosedModeEnabled()) {
+             if (constraintsInterface.isClosedModeEnabled()) {
                 if (result.changeRequested) {
                     final PumpEnactResult waiting = new PumpEnactResult();
                     final PumpEnactResult previousResult = lastRun.setByPump;
@@ -316,7 +326,7 @@ public class LoopPlugin implements PluginBase {
             }
 
             MainApp.bus().post(new EventLoopUpdateGui());
-            MainApp.getConfigBuilder().uploadDeviceStatus();
+            NSUpload.uploadDeviceStatus();
         } finally {
             if (Config.logFunctionCalls)
                 log.debug("invoke end");

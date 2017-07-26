@@ -60,7 +60,7 @@
     <string name="openapsma_iobdata_label">IOB datos</string>
     <string name="openapsma_profile_label">Perfil</string>
     <string name="openapsma_mealdata_label">Datos de comidas</string>
-    <string name="openapsma_result_label">Resultado</string>
+    <string name="result">Resultado</string>
     <string name="openapsma_noglucosedata">No hay disponibles datos de glucosa</string>
     <string name="openapsma_noprofile">Sin perfil disponible</string>
     <string name="openapsma_nopump">No se dispone de bomba</string>
@@ -80,7 +80,6 @@
     <string name="overview">Sinopsis</string>
     <string name="profileviewer">Perfil NS</string>
     <string name="simpleprofile">Perfil simple</string>
-    <string name="tempbasals">Temp basales</string>
     <string name="treatments">Tratamientos</string>
     <string name="virtualpump">Bomba virtual</string>
     <string name="careportal">Careportal</string>
@@ -102,7 +101,6 @@
     <string name="loop_constraintsprocessed_label">Tras procesar limitaciones</string>
     <string name="loop_setbypump_label">Definido por la bomba</string>
     <string name="openapsma_lastenact_label">Última aceptada</string>
-    <string name="refreshtreatmentsfromnightscout">¿Quieres actualizar tratamientos de Nightscout?</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
     <string name="noapsselected">NO APS Seleccionado</string>
@@ -181,7 +179,6 @@
     <string name="noprofile">Pendiente carga perfil NS</string>
     <string name="overview_tempbasal_button">Basal Temporal</string>
     <string name="overview_extendedbolus_button">Bolo extendido</string>
-    <string name="configbuilder_nsclientversion_label">NSClient versión:</string>
     <string name="configbuilder_nightscoutversion_label">Nightscout versión:</string>
     <string name="send">ENVIAR</string>
     <string name="missing">Faltan</string>
@@ -327,7 +324,6 @@
     <string name="androidaps_start">AndroidAPS iniciado</string>
     <string name="es_lang">Español</string>
     <string name="ns_upload_only">NS solo subida (sinc. inactiva)</string>
-    <string name="ns_upload_only_enabled">Por favor desactiva \"NS solo subida\" para usar esta característica.</string>
     <string name="ns_upload_only_summary">NS solo subida. No efectivo con SGV salvo que este seleccionada una fuente local como xDrip. No efectivo en perfiles usando perfiles NS</string>
     <string name="othersettings_title">Otros</string>
     <string name="pumpNotInitialized">¡Bomba no iniciada!</string>
@@ -386,19 +382,15 @@
     <string name="pumpNotInitializedProfileNotSet">Bomba no iniciada, ¡perfil no ajustado!</string>
     <string name="pumperror">Error en bomba</string>
     <string name="pumpshutdown">Apagando Bomba</string>
-    <string name="refreshtemptargetsfromnightscout">¿Quiere actualizar objetivo temporal desde Nightscout?</string>
     <string name="removerecord">Eliminar registro:</string>
     <string name="resend_all_data">Enviar todos los datos</string>
     <string name="send_to_pump">ENVIAR A BOMBA</string>
     <string name="short_avgdelta">Media corta delta</string>
     <string name="sms_bolus">Bolo:</string>
-    <string name="sms_lastbg">Ultimo BG:</string>
+    <string name="sms_lastbg">Último BG:</string>
     <string name="sms_minago">%dmin antes</string>
     <string name="smscommunicator_bolusdelivered">Bolo %.2fU enviado correctamente</string>
     <string name="target_range">Rango Objetivo:</string>
-    <string name="temptargetrange">Objetivo Temp</string>
-    <string name="temptargetrange_refreshfromnightscout">Actualizar objetivo temporal desde NS</string>
-    <string name="timeshift_hint"></string>
     <string name="units">Unidades:</string>
     <string name="error_only_numeric_digits_allowed">Sólo se permiten caracteres numéricos</string>
     <string name="error_only_numeric_digits_range_allowed">Sólo se permiten dígitos en el rango %1$s - %2$s</string>

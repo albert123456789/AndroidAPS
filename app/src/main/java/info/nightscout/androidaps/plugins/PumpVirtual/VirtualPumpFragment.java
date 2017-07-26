@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +17,11 @@ import org.slf4j.LoggerFactory;
 
 import info.nightscout.androidaps.MainApp;
 import info.nightscout.androidaps.R;
+import info.nightscout.androidaps.plugins.Common.SubscriberFragment;
 import info.nightscout.androidaps.plugins.PumpVirtual.events.EventVirtualPumpUpdateGui;
 
-public class VirtualPumpFragment extends Fragment {
+public class VirtualPumpFragment extends SubscriberFragment {
     private static Logger log = LoggerFactory.getLogger(VirtualPumpFragment.class);
-
-    private static VirtualPumpPlugin virtualPumpPlugin = new VirtualPumpPlugin();
-
-    public static VirtualPumpPlugin getPlugin() {
-        return virtualPumpPlugin;
-    }
 
     TextView basaBasalRateView;
     TextView tempBasalView;
@@ -67,43 +61,32 @@ public class VirtualPumpFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        MainApp.bus().unregister(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        MainApp.bus().register(this);
-    }
-
     @Subscribe
     public void onStatusEvent(final EventVirtualPumpUpdateGui ev) {
         updateGUI();
     }
 
-    public void updateGUI() {
+    @Override
+    protected void updateGUI() {
         Activity activity = getActivity();
         if (activity != null && basaBasalRateView != null)
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
 
-                    basaBasalRateView.setText(virtualPumpPlugin.getBaseBasalRate() + "U");
-                    if (virtualPumpPlugin.isTempBasalInProgress()) {
-                        tempBasalView.setText(virtualPumpPlugin.getTempBasal().toString());
+                    basaBasalRateView.setText(VirtualPumpPlugin.getInstance().getBaseBasalRate() + "U");
+                    if (MainApp.getConfigBuilder().isTempBasalInProgress()) {
+                        tempBasalView.setText(MainApp.getConfigBuilder().getTempBasalFromHistory(System.currentTimeMillis()).toStringFull());
                     } else {
                         tempBasalView.setText("");
                     }
-                    if (virtualPumpPlugin.isExtendedBoluslInProgress()) {
-                        extendedBolusView.setText(virtualPumpPlugin.getExtendedBolus().toString());
+                    if (MainApp.getConfigBuilder().isInHistoryExtendedBoluslInProgress()) {
+                        extendedBolusView.setText(MainApp.getConfigBuilder().getExtendedBolusFromHistory(System.currentTimeMillis()).toString());
                     } else {
                         extendedBolusView.setText("");
                     }
-                    batteryView.setText(VirtualPumpPlugin.batteryPercent + "%");
-                    reservoirView.setText(VirtualPumpPlugin.reservoirInUnits + "U");
+                    batteryView.setText(VirtualPumpPlugin.getInstance().batteryPercent + "%");
+                    reservoirView.setText(VirtualPumpPlugin.getInstance().reservoirInUnits + "U");
                 }
             });
     }

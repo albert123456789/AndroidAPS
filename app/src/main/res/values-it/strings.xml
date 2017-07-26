@@ -4,9 +4,7 @@
     <string name="it_lang">Italiano</string>
     <string name="MM640g">MM640g</string>
     <string name="absolute">assoluto</string>
-    <string name="app_name"></string>
     <string name="actions">azioni</string>
-    <string name="actions_shortname"></string>
     <string name="activity">attivita\'</string>
     <string name="adult">adulto</string>
     <string name="advancedsettings_title">settaggi avanzati</string>
@@ -81,7 +79,6 @@
     <string name="configbuilder_insulin">Insulina</string>
     <string name="configbuilder_loop">Loop</string>
     <string name="configbuilder_nightscoutversion_label">Versione Nightscout</string>
-    <string name="configbuilder_nsclientversion_label">Versione NSClient</string>
     <string name="configbuilder_profile">Profilo</string>
     <string name="configbuilder_pump">Microinfusore</string>
     <string name="configbuilder_shortname">Configurazione</string>
@@ -299,7 +296,7 @@
     <string name="dont_show_again">Non mostrarlo più</string>
     <string name="enablesuperbolus_summary">Abilita funzionalità superbolus nella procedura guidata. Non abilitare fino a quando non impari quello che realmente fa. PUÒ CAUSARE L\'INVERTIMENTO INSULINO SE USATO BLINDLY!</string>
     <string name="openapsma_request_label">Richiesta</string>
-    <string name="openapsma_result_label">Esito</string>
+    <string name="result">Esito</string>
     <string name="openapsma_run">Avvia ora</string>
     <string name="openloop">Apertura Loop</string>
     <string name="othersettings_title">Altro</string>
@@ -330,8 +327,6 @@
     <string name="pumpshutdown">Arresto Micro</string>
     <string name="pumpsuspended">Sospensione Micro</string>
     <string name="pumpsuspendedclicktorefresh">Micro sospeso. Clicca per aggiornare</string>
-    <string name="refreshtemptargetsfromnightscout">Vuoi aggiornare i target di tempo da Nightscout</string>
-    <string name="refreshtreatmentsfromnightscout">Vuoi aggiornare i trattamenti da Nightscout</string>
     <string name="reloadprofile">Aggiorna Profilo</string>
     <string name="removerecord">Eliminare campo:</string>
     <string name="restart">Riavvio</string>
@@ -386,7 +381,6 @@
     <string name="syncprofiletopump_title">Sincronizza profilo sul micro</string>
     <string name="target_range">Target range:</string>
     <string name="teenage">Adolescente</string>
-    <string name="tempbasals">Basale temporanea</string>
     <string name="tempbasals_iob_label_string">IOB:</string>
     <string name="tempbasals_iobtotal_label_string">Totale IOB:</string>
     <string name="tempbasals_netinsulin_label_string">Ins:</string>
@@ -412,8 +406,6 @@
     <string name="openapsma_mealdata_label">Data Pranzo</string>
     <string name="overview_bolusprogress_stoped">Stoppato</string>
     <string name="tempbasals_netratio_label_string">rapporto:</string>
-    <string name="temptargetrange">Target temp</string>
-    <string name="temptargetrange_refreshfromnightscout">Aggiornare i target di temp da NS</string>
     <string name="treatmentdeliveryerror">Errore di erogazione del bolo</string>
     <string name="treatments_activity_string">attività</string>
     <string name="treatments_carbs_label_string">Carboidrati:</string>

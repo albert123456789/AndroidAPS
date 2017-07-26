@@ -53,7 +53,6 @@
     <string name="configbuilder_bgsource">BZ Quelle</string>
     <string name="configbuilder_loop">Loop</string>
     <string name="configbuilder_nightscoutversion_label">Nightscout Version:</string>
-    <string name="configbuilder_nsclientversion_label">NSClient Version:</string>
     <string name="configbuilder_tempbasals">Temp Basals</string>
     <string name="delta">Delta</string>
     <string name="duration">Dauer</string>
@@ -114,19 +113,17 @@
     <string name="treatmentssafety_maxbolus_title">Max erlaubter Bolus</string>
     <string name="treatmentssafety_maxcarbs_title">Max erlaubte Kohlehydrate</string>
     <string name="treatmentssafety_title">Tratments Sicherheit</string>
-    <string name="tempbasals">Temp Basals</string>
     <string name="simpleprofile">Einfaches Profil</string>
     <string name="setextendedbolusquestion">Setze neuen extended Bolus:</string>
     <string name="setbasalquestion">Akzeptiere neue temp Basalrate:</string>
     <string name="danar_useextended_title">Benutze extended Bolus für hohe temps (\>200%)></string>
-    <string name="refreshtreatmentsfromnightscout">Möchtest du die Treatments von Nightscout abrufen</string>
     <string name="objectives_pumpstatusavailableinns">Pumpen Status verfügbar in NS</string>
     <string name="overview_newtempbasal_percent_label">% (100% = current)</string>
     <string name="overview_newtempbasal_basal_label">Basal Wert</string>
     <string name="overview_extendedbolus_button">Extended Bolus</string>
     <string name="overview">Übersicht</string>
     <string name="openloop_newsuggestion">Neue Empfehlung verfügbar</string>
-    <string name="openapsma_result_label">Ergebnis</string>
+    <string name="result">Ergebnis</string>
     <string name="openapsma_request_label">Anfrage</string>
     <string name="openapsma_run">Run now</string>
     <string name="openapsma_nopump">Keine Pumpe verfügbar</string>
@@ -278,7 +275,6 @@
     <string name="fillbolus_title">Vorfüll-Standardmengen</string>
     <string name="fillwarning">Bitte vergewissern Sie sich, dass die Menge der Spezifikation des Katheters entspricht.</string>
     <string name="ns_upload_only">Zu NightScout nur hochladen (kein sync)</string>
-    <string name="ns_upload_only_enabled">Bitte deaktivieren Sie \"Zu NightScout nur hochladen\" um dieses Feature zu nutzen.</string>
     <string name="ns_upload_only_summary">Zu NightScout nur hochladen. Nicht wirksam bei SGV wenn nicht eine lokale Quelle wie xDrip gewählt wird.  Nicht wirksam bei Profilen, wenn NS-Profile verwendet werden.</string>
     <string name="othersettings_title">Andere</string>
     <string name="occlusion">Verstopfung</string>
